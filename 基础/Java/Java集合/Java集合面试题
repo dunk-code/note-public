@@ -1,0 +1,248 @@
+# Java集合容器面试题
+
+## 常用的集合类
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20210604170635.png" alt="image-20210604170631750" style="zoom:80%;" />
+
+Collection接口的子类包括：Set接口、Queue接口和List接口
+
+- Set接口（无序：元素存入和取出的顺序可能不一致）的实现类主要有：HashSet、TreeSet、LinkedHashSet
+- Queue接口包含Deque和BlockingQueue
+- List接口（有序：元素存入集合的顺序和取出顺序一致）的实现类：ArrayList、LinkedList、Stack以及Vector
+
+![image-20210604170955453](https://gitee.com/zhang-songyao/blog-images/raw/master/20210604170957.png)
+
+Map接口：键值对集合，存储键、值之间的映射。Key无序，唯一；value，不要求有序，允许重复
+
+实现类：HashMap、TreeMap、HashTable、ConcurrentHashMap以及Properties
+
+## List接口
+
+
+### 谈谈ArrayList
+
+ArrayList是容量可变的非线程安全列表，使用数组实现，集合扩容时会创建更大的数组，把原有的数组复制到新的数组中。支持对元素的快速随机访问，但插入与删除的速度很慢。ArrayList实现了RandomAcess标记接口，如果一个类实现了这个接口，证明使用索引遍历比迭代器更快
+
+ArrayList主要底层实现是Object[]elementData，被transient修饰，重写了writeObject()方法，序列化时会调用 writeObject()写入流，反序列化时调用 readObject()重新赋值到新对象的 elementData
+
+> writeObject()
+
+先调用 defaultWriteObject() 方法序列化 ArrayList 中的非 transient 元素，然后遍历 elementData，只序列化已存入的元素，这样既加快了序列化的速度，又减小了序列化之后的文件大小
+
+```java
+private void writeObject(java.io.ObjectOutputStream s)
+    throws java.io.IOException{
+    // Write out element count, and any hidden stuff
+    int expectedModCount = modCount;
+    s.defaultWriteObject();
+    // Write out size as capacity for behavioural compatibility with clone()
+    s.writeInt(size);
+    // Write out all elements in the proper order.
+    for (int i=0; i<size; i++) {
+        s.writeObject(elementData[i]);
+    }
+    if (modCount != expectedModCount) {
+        throw new ConcurrentModificationException();
+    }
+}
+```
+
+size是实际的大小，elementData大小等于size
+
+**modCount **记录了 ArrayList 结构性变化的次数，继承自 AbstractList。所有涉及结构变化的方法都会增加该值。expectedModCount 是迭代器初始化时记录的 modCount 值，每次访问新元素时都会检查 modCount 和 expectedModCount 是否相等，不相等就会抛出异常。这种机制叫做 fail-fast，所有集合类都有这种机制
+
+#### 初始容量
+
+> 初始容量为10
+
+JDK1.7时，相当于饿汉式，第一次创建无参构造器时，就创建一个初始容量为10的数组
+
+JDK1.8时，相当于懒汉式，只有当整整add时才会分配默认的初始容量
+
+#### 扩容
+
+> ArrayList的扩容阈值为1.5
+
+```java
+private void grow(int minCapacity) {
+    // overflow-conscious code
+    int oldCapacity = elementData.length;
+    int newCapacity = oldCapacity + (oldCapacity >> 1);
+    if (newCapacity - minCapacity < 0)
+        newCapacity = minCapacity;
+    if (newCapacity - MAX_ARRAY_SIZE > 0)
+        newCapacity = hugeCapacity(minCapacity);
+    // minCapacity is usually close to size, so this is a win:
+    elementData = Arrays.copyOf(elementData, newCapacity);
+}
+```
+
+扩容过程：
+
+- 假设有一个长度为10的数组，此时新增加一个元素，发现ArrayList已经满了，需要扩容
+- 重新定义一个长度为10 * 1.5的数组
+- 将原数组的数据原封不动的复制到新的数组
+- 将ArrayList的地址指向新数组
+
+#### 如何实现数组和List之间的转换
+
+数组转List：使用Arrays.asList()进行转换
+
+List转数组：使用List自带的toArray()方法
+
+### 谈谈LinkedList
+
+LinkedList的本质是双向链表，AbstractList 外还实现了 Deque 接口，这个接口具有队列和栈的性质，成员变量被 transient 修饰，原理和 ArrayList 类似
+
+LinkedList 包含三个重要的成员：size、first 和 last。size 是双向链表中节点的个数，first 和 last 分别指向首尾节点的引用
+
+LinkedList的优点在于可以将零碎的内存空间通过附加引用的方式关联起来，形成链路顺序查找的线性结构，内存利用率高
+
+### ArrayList和LinkedList的区别
+
+- 数据结构实现：ArrayList是动态数组的数据结构实现，而LinkedList是双向链表的数据结构实现
+
+- ArrayList的查询和访问速度较快，但是新增、删除的速度较慢，LinkedList的查找和访问元素到的速度较慢，但是它的新增，删除速度较快
+- ArrayList需要一份连续的内存空间，LinkedList不需要连续的内存空间（特别地，当创建一个ArrayList集合的时候，连续的内存空间必须要大于等于创建的容量）
+- 两者都是线程不安全的
+
+> 综合来说，在需要频繁读取集合中的元素时，更推荐使用 ArrayList，而在插入和删除操作较多时，更推荐使用 LinkedList
+
+### ArrayList和Vector的区别
+
+| 区别     | ArrayList        | Vector        |
+| -------- | ---------------- | ------------- |
+| 线程安全 | 非线程安全       | 线程安全      |
+| 性能     | 优               | 差            |
+| 扩容     | ArrayList扩容1.5 | Vector扩容2倍 |
+
+Vector类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象、但是一个线程访问Vector的话代码要在同步操作上耗费大量的时间
+
+Arraylist不是同步的，所以在不需要保证线程安全时时建议使用Arraylist
+
+### 快速失败（fail-fast）
+
+是Java集合的一种错误检测机制，当多个线程对集合进行结构上的改变操作时，有可能会产生fail-fast机制
+
+迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变modCount的值。每当迭代器使用hashNext()/next()遍历下一个元素之前，都会检测modCount变量是否为expectedmodCount值，是的话就返回遍历；否则抛出异常，终止遍历
+
+### 安全失败（fail-safe）
+
+采用安全失败机制的集合容器，在比那里时不是直接在集合内容上访问的，而是先复制原有的集合内容，在拷贝的集合上进行遍历
+
+原理：由于迭代时是对原集合的拷贝进行遍历，所以在遍历过程中对原集合所作的修改并不能被迭代器检测到，所以不会触发ConcurrentModificationException
+
+缺点：基于拷贝内容的优点是避免了ConcurrentModificationException，但同样地，迭代器并不能访问到修改后的内容，即：迭代器遍历的是开始遍历那一刻拿到的集合拷贝，在遍历期间原集合发生的修改迭代器是不知道的
+
+> 场景：java.util.concurrent包下的容器都是安全失败，可以在多线程下并发使用，并发修改。
+
+### 怎么确保一个集合不被修改
+
+可以使用 Collections. unmodifiableCollection(Collection c) 方法来创建一个只读集合，这样改变集合的任何操作都会抛出 Java. lang. UnsupportedOperationException 异常
+
+## 迭代器
+
+### Iterator
+
+Iterator接口提供遍历任何Collection的接口。我们可以从一个 Collection 中使用迭代器方法来获取迭代器实例。迭代器取代了 Java 集合框架中的 Enumeration，迭代器允许调用者在迭代过程中移除元素
+
+迭代器的特点：只能单向遍历，但是更加安全，因为它可以担保，在当前遍历的集合元素被更改的时候，就会抛出ConcurrentModificationException 异常
+
+如何边遍历边删除Collection中的元素
+
+```java
+Iterator<Integer> it = list.iterator();
+while(it.hasNext()){
+   *// do something*
+   it.remove();
+}
+错误写法：list.remove(i)
+```
+
+### Iterator 和 ListIterator 有什么区别
+
+Iterator 可以遍历 Set 和 List 集合，而 ListIterator 只能遍历 List
+Iterator 只能单向遍历，而 ListIterator 可以双向遍历（向前/后遍历）
+ListIterator 实现 Iterator 接口，然后添加了一些额外的功能，比如添加一个元素、替换一个元素、获取前面或后面元素的索引位置
+
+## Set接口
+
+### 谈谈HashSet
+
+HashSet是基于HashMap实现的，HashSet的值存放与HashMap的key上，HashMap的value统一为PRESENT，基本上都是直接调用底层的HashMap相关方法来完成的
+
+```java
+private static final Object PRESENT = new Object();
+```
+
+HashMap先比较hashCode，再比较equals，所以key是不会重复的
+
+```java
+public boolean add(E e) {
+	return map.put(e, PRESENT)==null;
+}
+```
+
+### TreeSet同TreeMap
+
+## Map接口
+
+### 谈谈TreeMap
+
+TreeMap基于红黑树实现，增删改查的平均和最差时间复杂度均为O(logn)，最大的特点是Key有序，Key必须实现Comparable接口或者提供Comparator比较器，所以Key不能为null
+
+HashMap依靠hashCode和equals去重，而TreeMap依靠Comparable或者Comparator。TreeMap 排序时，如果比较器不为空就会优先使用比较器的 compare 方法，否则使用 Key 实现的 Comparable 的 compareTo 方法，两者都不满足会抛出异常
+
+> 红黑树的操作，HashMap中会有介绍
+
+### Comparable和Comparator接口的区别
+
+Comparable一般都是通过类去实现接口，在类内部去实现comparaTo方法，所以一般人也称为内部比较器。实现了Comparable接口的类有一个共同特点，就是这些类可以和自己比较，至于具体和另一个实现了Comparable接口的类如何比较，则依赖compareTo方法的实现
+
+```java
+public interface Comparable<T> {
+    public int compareTo(T o);
+}
+```
+
+Comparator一般都是写一个类去实现Comparator接口，让这个类作为专用的比较器，在需要比较器的地方当做参数传进去，外比较器。 一个对象实现了Comparable接口，但是开发者认为compareTo方法中的比较方式并不是自己想要的那种比较方式
+
+```java
+public interface Comparator<T> {
+    int compare(T o1, T o2);
+}
+```
+
+#### 升序降序记法
+
+这里o1表示位于前面的对象，o2表示后面的对象
+
+返回-1（或负数），表示不需要交换01和02的位置，o1排在o2前面，asc 返回1（或正数），表示需要交换01和02的位置，o1排在o2后面，desc
+
+#### 总结
+
+1、如果实现类没有实现Comparable接口，又想对两个类进行比较（或者实现类实现了Comparable接口，但是对compareTo方法内的比较算法不满意），那么可以实现Comparator接口，自定义一个比较器，写比较算法
+
+2、实现Comparable接口的方式比实现Comparator接口的耦合性  要强一些，如果要修改比较算法，要修改Comparable接口的实现类，而实现Comparator的类是在外部进行比较的，不需要对实现类有任何修  改。从这个角度说，其实有些不太好，尤其在我们将实现类的.class文件打成一个.jar文件提供给开发者使用的时候。实际上实现Comparator 接口的方式后面会写到就是一种典型的策略模式。
+
+### HashMap
+
+[HashMap、Hashtable、ConcurrentHashMap（1.7、1.8）源码分析 + 红黑树](https://blog.csdn.net/qq_45796208/article/details/115984778?spm=1001.2014.3001.5501)
+
+## Queue
+
+队列的特点
+
+队列是一种比较特殊的线性结构。它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作。进行插入操作的端称为队尾，进行删除操作的端称为队头。
+队列中最先插入的元素也将最先被删除，对应的最后插入的元素将最后被删除。因此队列又称为“先进先出”（FIFO—first in first out）的线性表，与栈(FILO-first in last out)刚好相反
+
+### BlockingQueue
+
+四组API
+
+|      方式      | 抛出异常 | 不抛出异常，有返回值 | 阻塞一直等待 |            超时等待            |
+| :------------: | :------: | :------------------: | :----------: | :----------------------------: |
+|      添加      |   add    |        offer         |     put      | offer("c",2, TimeUnit.SECONDS) |
+|      删除      |  remove  |         poll         |     take     |    poll(2,TimeUnit.SECONDS)    |
+| 判断对列首元素 | element  |         peek         |      -       |               -                |
+

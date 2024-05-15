@@ -1,0 +1,1549 @@
+[笔记](https://blog.csdn.net/qq_46138160/article/details/111028492?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522163974381016780271595162%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=163974381016780271595162&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-111028492.pc_search_mgc_flag&utm_term=Vue&spm=1018.2226.3001.4187)
+
+# 概念简介
+
+## Vue.js
+
+> 作者
+
+**尤雨溪**
+
+本科：室内艺术和艺术史
+
+硕士：美术设计和技术
+
+硕士期间，偶然接触到了 **JavaScript**。
+
+因为浓烈的兴趣，开发了目前前端三大框架之首的 **Vue.js**（另外两个分别是 **Angular.js** 和 **React.js**）
+
+他的经历完美的印证了这句话：
+
+==兴趣是最好的老师。==
+
+> 概念
+
+- 一款用于构建用户界面的**渐进式** JavaScript 框架。
+- 渐进式：Vue渐进式-先使用Vue的核心库，再根据你的需要的功能再去逐渐增加加相应的插件。
+- 采取关注度分离原则（SOC），核心库只关注视图层（名称发音 View 的由来），其他功能由相应插件完成。
+  - Axios：页面通信。
+  - router：页面跳转。
+  - Babel：编译工具，兼容浏览器 ES 版本。
+  - WebPack：打包、压缩。
+
+> 官网
+
+https://cn.vuejs.org/v2/guide/
+
+由于是 Vue 是中国人写的，官方文档很符合中国人的理解逻辑，看起来相对轻松。
+
+### JavaScript构建工具
+
+- Babel：JS编译工具，主要用于浏览器不支持的ES新特性，比如用于编译TypeScript
+- WebPack：模块打包器，主要作用就是打包、压缩、合并及按序加载
+
+## Node.js
+
+- 2009年发布。
+- 一套 JavaScript 运行环境，类似于 JDK。
+- **npm**：项目综合管理工具，类似于 Maven。
+- **yarn**：npm 的替代方案，类似于 Maven 和 Gradle 的关系。
+- Node.js 的作者已经声称放弃 Node.js，说是架构做的不好再加上笨重的 node_modules，开始开发全新架构的 Deno（destroy node）。
+
+## nvm
+
+- nvm 全名 **node.js version management**，一个 Node.js 的版本管理工具。
+- 通过它可以安装和切换不同版本的 Node.js 。
+
+## ElementUI
+
+- **饿了么**推出的基于 Vue 的桌面端组件库。
+- Vue 2.0 和 3.0 各有对应的组件库。
+- 组件以 `el-` 开头。
+- 组件查询：https://element.eleme.cn/#/zh-CN/component/installation。
+
+## 前后分离的演变史
+
+### 后端为主的MVC时代
+
+为了降低开发的复杂度， 以后端为出发点， 比如：Struts、Spring MVC等框架的使用， 就是后端的MVC时代
+
+### 基于AJAX带来的SPA时代
+
+时间回到2005年A OAX(Asynchronous JavaScript And XML， 异步JavaScript和XML，老技术新用法)被正式提出并开始使用CDN作为静态资源存储， 于是出现了JavaScript王者归来(在这之前JS都是用来在网页上贴狗皮膏药广告的) 的SPA(Single Page Application) 单页面应用时代。
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20211217210614.png" alt="image-20211217210610363" style="zoom:80%;" />
+
+优点
+这种模式下， **前后端的分工非常清晰， 前后端的关键协作点是AJAX接口。**看起来是如此美妙， 但回过头来看看的话， 这与JSP时代区别不大。复杂度从服务端的JSP里移到了浏览器的JavaScript，浏览器端变得很复杂。类似Spring MVC， 这个时代开始出现浏览器端的分层架构：
+
+<img src="https://img-blog.csdnimg.cn/20200612180725928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3Bhbl9oMTk5NQ==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" style="zoom: 67%;" />
+
+缺点
+
+- 前后端接口的约定：如果后端的接口一塌糊涂，如果后端的业务模型不够稳定，那么前端开发会很痛苦；不少团队也有类似尝试，通过接口规则、接口平台等方式来做。有了和后端一起沉淀的接口规则，还可以用来模拟数据，使得前后端可以在约定接口后实现高效并行开发。
+- 前端开发的复杂度控制：SPA应用大多以功能交互型为主，JavaScript代码过十万行很正常。大量JS代码的组织，与View层的绑定等，都不是容易的事情。
+  
+
+### 前端为主的MV*时代
+
+此处的MV*模式如下：
+
+- MVC(同步通信为主) ：Model、View、Controller
+- MVP(异步通信为主) ：Model、View、Presenter
+- MVVM(异步通信为主)：Model、View、View Model
+
+为了降低前端开发复杂度，涌现了大量的前端框架，比如：Angular JS、React、Vue.js、Ember JS等， 这些框架总的原则是先按类型分层， 比如Templates、Controllers、Models， 然后再在层内做切分，如下图：
+
+![在这里插入图片描述](https://gitee.com/zhang-songyao/blog-images/raw/master/20211217210134.png)
+
+优点
+
+- 前后端职责很清晰：前端工作在浏览器端，后端工作在服务端。清晰的分工，可以让开发并行，测试数据的模拟不难， 前端可以本地开发。后端则可以专注于业务逻辑的处理， 输出RESTful等接口。
+- 前端开发的复杂度可控：前端代码很重，但合理的分层，让前端代码能各司其职。这一块蛮有意思的，简单如模板特性的选择，就有很多很多讲究。并非越强大越好，限制什么，留下哪些自由，代码应该如何组织，所有这一切设计，得花一本书的厚度去说明。
+- 部署相对独立：可以快速改进产品体验缺点
+- 代码不能复用。比如后端依旧需要对数据做各种校验，校验逻辑无法复用浏览器端的代码。如果可以复用，那么后端的数据校验可以相对简单化。
+- 全异步， 对SEO不利。往往还需要服务端做同步渲染的降级方案。
+- 性能并非最佳，特别是移动互联网环境下。
+- SPA不能满足所有需求， 依旧存在大量多页面应用。URL Design需要后端配合， 前端无法完全掌控。
+  
+
+### Node JS带来的全栈时代
+
+前端为主的MV*模式解决了很多很多问题， 但如上所述， 依旧存在不少不足之处。随着Node JS的兴起， JavaScript开始有能力运行在服务端。这意味着可以有一种新的研发模式：
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20211217210247.png" alt="在这里插入图片描述" style="zoom:80%;" />
+
+在这种研发模式下，前后端的职责很清晰。对前端来说，两个UI层各司其职：
+
+- Front-end Ul layer处理浏览器层的展现逻辑。通过CSS渲染样式， 通过JavaScript添加交互功能， HTML的生成也可以放在这层， 具体看应用场景。
+- Back-end Ul layer处理路由、模板、数据获取、Cookie等。通过路由， 前端终于可以自主把控URL Design， 这样无论是单页面应用还是多页面应用， 前端都可以自由调控。后端也终于可以摆脱对展现的强关注，转而可以专心于业务逻辑层的开发。
+- 通过Node， WebServer层也是JavaScript代码， 这意味着部分代码可前后复用， 需要SEO的场景可以在服务端同步渲染，由于异步请求太多导致的性能问题也可以通过服务端来缓解。前一种模式的不足，通过这种模式几乎都能完美解决掉。
+  与JSP模式相比， 全栈模式看起来是一种回归， 也的确是一种向原始开发模式的回归， 不过是一种螺旋上升式的回归。
+  基于Node JS的全栈模式， 依旧面临很多挑战：
+- 需要前端对服务端编程有更进一步的认识。比如TCP/IP等网络知识的掌握。
+- Node JS层与Java层的高效通信。Node JS模式下， 都在服务器端， RESTful HTTP通信未必高效， 通过SOAP等方式通信更高效。一切需要在验证中前行。
+- 对部属、运维层面的熟练了解，需要更多知识点和实操经验。
+- 大量历史遗留问题如何过渡。这可能是最大最大的阻力。
+
+  注：看到这里，相信很多同学就可以理解，为什么我总在课堂上说：“前端想学后台很难，而我们后端程序员学任何东西都很简单”；就是因为我们后端程序员具备相对完善的知识体系。
+
+# 第一个Vue程序
+
+## 什么是MVVM
+
+MVVM（Model-View-ViewModel）是一种软件设计模式，由微软WPF（用于替代WinForm，以前就是用这个技术开发桌面应用程序的）和Silverlight（类似于Java Applet，简单点说就是在浏览器上运行WPF）的架构师Ken Cooper和Ted Peters开发，是一种简化用户界面的**事件驱动编程方式**。由John Gossman（同样也是WPF和Sliverlight的架构师）与2005年在他的博客上发表。
+
+MVVM源自于经典的MVC（Model-View-Controller）模式。MVVM的核心是ViewModel层，负责转换Model中的数据对象来让数据变得更容易管理和使用。其作用如下：
+
+- 该层向上与视图层进行双向数据绑定
+- 向下与Model层通过接口请求进行数据交互
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20211217211426.png" alt="在这里插入图片描述" style="zoom:80%;" />
+
+MVVM已经相当成熟了，主要运用但不仅仅在网络应用程序开发中。当下流行的MVVM框架有Vue.js，Anfular JS
+
+## 为什么要使用MVVM
+
+MVVM模式和MVC模式一样，主要目的是分离视图（View）和模型（Model），有几大好处
+
+- 低耦合：视图（View）可以独立于Model变化和修改，一个ViewModel可以绑定到不同的View上，当View变化的时候Model可以不变，当Model变化的时候View也可以不变。
+- 可复用：你可以把一些视图逻辑放在一个ViewModel里面，让很多View重用这段视图逻辑。
+- 独立开发：开发人员可以专注于业务逻辑和数据的开发（ViewMode），设计人员可以专注于页面设计。
+- 可测试：界面素来是比较难以测试的，而现在测试可以针对ViewModel来写。
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20211217211518.png" alt="在这里插入图片描述" style="zoom:80%;" />
+
+**（1）View**
+
+View是视图层， 也就是用户界面。前端主要由HTML和CSS来构建， 为了更方便地展现viewModel或者Model层的数据， 已经产生了各种各样的前后端模板语言， 比如FreeMarker，Thyme leaf等等， 各大MV VM框架如Vue.js，Angular JS， EJS等也都有自己用来构建用户界面的内置模板语言。
+
+**（2）Model**
+
+Model是指数据模型， 泛指后端进行的各种业务逻辑处理和数据操控， 主要围绕数据库系统展开。这里的难点主要在于需要和前端约定统一的接口规则
+
+**（3）ViewModel**
+
+ViewModel是由前端开发人员组织生成和维护的视图数据层。在这一层， 前端开发者对从后端获取的Model数据进行转换处理， 做二次封装， 以生成符合View层使用预期的视图数据模型。
+
+需要注意的是View Model所封装出来的数据模型包括视图的状态和行为两部分， 而Model层的数据模型是只包含状态的
+
+- 比如页面的这一块展示什么，那一块展示什么这些都属于视图状态(展示)
+- 页面加载进来时发生什么，点击这一块发生什么，这一块滚动时发生什么这些都属于视图行为(交互)
+
+视图状态和行为都封装在了View Model里。这样的封装使得View Model可以完整地去描述View层。由于实现了双向绑定， View Model的内容会实时展现在View层， 这是激动人心的， 因为前端开发者再也不必低效又麻烦地通过操纵DOM去更新视图。
+
+MVVM框架已经把最脏最累的一块做好了， 我们开发者只需要处理和维护View Model， 更新数据视图就会自动得到相应更新，真正实现事件驱动编程。
+
+View层展现的不是Model层的数据， 而是ViewModel的数据， 由ViewModel负责与Model层交互， 这就完全解耦了View层和Model层， 这个解耦是至关重要的， 它是前后端分离方案实施的重要一环
+
+## MVVM模式的实现者
+
+- Model：模型层， 在这里表示JavaScript对象
+- View：视图层， 在这里表示DOM(HTML操作的元素)
+- ViewModel：连接视图和数据的中间件， Vue.js就是MVVM中的View Model层的实现者
+
+在MVVM架构中， 是不允许数据和视图直接通信的， 只能通过ViewModel来通信， 而View Model就是定义了一个Observer观察者
+
+- ViewModel能够观察到数据的变化， 并对视图对应的内容进行更新
+- ViewModel能够监听到视图的变化， 并能够通知数据发生改变
+- 至此， 我们就明白了， Vue.js就是一个MV VM的实现者， 他的核心就是实现了DOM监听与数据绑定
+
+## 为什么要使用Vue.js
+
+- 轻量级， 体积小是一个重要指标。Vue.js压缩后有只有20多kb(Angular压缩后56kb+，React压缩后44kb+)
+- 移动优先。更适合移动端， 比如移动端的Touch事件
+- 易上手，学习曲线平稳，文档齐全
+- 吸取了Angular(模块化) 和React(虚拟DOＭ) 的长处， 并拥有自己独特的功能，如：计算属性
+- 开源，社区活跃度高
+
+## 第一个Vue程序
+
+说明】IDEA可以安装Vue的插件!
+  注意：Vue不支持IE 8及以下版本， 因为Vue使用了IE 8无法模拟的ECMAScript 5特性。但它支持所有兼容ECMAScript 5的浏览器。
+
+（1）下载地址
+
+- 开发版本
+
+  - 包含完整的警告和调试模式：https：//yuejs.org/js/vue.js
+  - 删除了警告， 30.96KB min+gzip：https：//vuejs.org/js/vue.min.js
+
+- CDN
+
+  - <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+
+  - <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+
+Vue.js的核心是实现了MVVM模式， 她扮演的角色就是View Model层， 那么所谓的第一个应用程序就是展示她的数据绑定功能，操作流程如下：
+
+```html
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello Vue"
+            }
+        })
+    </script>
+</body>
+</html>
+```
+
+# 基础语法指令
+
+## v-bind
+
+我们已经成功创建了第一个Vue应用!看起来这跟渲染一个字符串模板非常类似， 但是Vue在背后做了大量工作。现在数据和DOM已经被建立了关联， 所有东西都是响应式的。我们在控制台操作对象属性，界面可以实时更新!
+  我们还可以使用v-bind来绑定元素特性!
+
+```html
+<!--view层，模板-->
+<div id="app">
+    <span v-bind:title="message">
+        鼠标悬停几秒钟查看此处动态绑定的提示信息！
+    </span>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            message: "Hello Vue"
+        }
+    });
+</script>
+```
+
+你看到的v-bind等被称为指令。指令带有前缀v以表示它们是Vue提供的特殊特性。可能你已经猜到了， 它们会在渲染的DOM上应用特殊的响应式行为在这里，该指令的意思是：“将这个元素节点的title特性和Vue实例的message属性保持一致”。
+  如果你再次打开浏览器的JavaScript控制台， 输入app， message=‘新消息’，就会再一次看到这个绑定了title特性的HTML已经进行了更新。
+
+```html
+<!-- 完整语法 -->
+<a v-bind:href="url">...</a>
+
+<!-- 缩写 -->
+<a :href="url">...</a>
+
+<!-- 动态参数的缩写 (2.6.0+) -->
+<a :[key]="url"> ... </a>
+```
+
+
+
+## v-if， v-else
+
+什么是条件判断语句，就不需要我说明了吧，以下两个属性!
+
+- v-if
+- v-else
+
+## v-else-if
+
+- v-if
+- v-else-if
+- v-else
+  注：`===`三个等号在JS中表示绝对等于(就是数据与类型都要相等)上代码：
+
+```html
+<div id="ifelse">
+    <h1 v-if="type==='A'">A</h1>
+    <h1 v-else-if="type==='B'">B</h1>
+    <h1 v-else>C</h1>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm1 = new Vue({
+        el: "#ifelse",
+        data: {
+            type: 'A'
+        }
+    });
+</script>
+```
+
+## v-for
+
+注：`items`是数组，`item`是数组元素迭代的别名。
+
+在控制台输入`vm.items.push({message：'王五'})`，尝试追加一条数据，你会发现浏览器中显示的内容会增加一条`王五`
+
+```html
+<div id="for">
+    <li v-for="(item, index) in items">
+        {{index}}----{{item.message}}
+    </li>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm1 = new Vue({
+        el: "#for",
+        data: {
+            items: [
+                {message: "张三"},
+                {message: "李四"}
+            ]
+        }
+    });
+</script>
+```
+
+## v-on
+
+`v-on`监听事件
+
+事件有Vue的事件、和前端页面本身的一些事件!我们这里的`click`是vue的事件， 可以绑定到Vue中的`methods`中的方法事件!
+
+```html
+<div id="app">
+    <button v-on:click="sayHello('张三')">
+        你好
+    </button>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data : {
+            message : "Helloword"
+        },
+        methods: {
+            sayHello :function(event) {
+                alert(this.message + event);
+            }
+        },
+    })
+</script>
+```
+
+> 缩写
+
+```html
+<!-- 完整语法 -->
+<a v-on:click="doSomething">...</a>
+
+<!-- 缩写 -->
+<a @click="doSomething">...</a>
+
+<!-- 动态参数的缩写 (2.6.0+) -->
+<a @[event]="doSomething"> ... </a>
+```
+
+
+
+# 表单双绑、组件
+
+## 什么是双向数据绑定
+
+Vue.js是一个MV VM框架， 即数据双向绑定， 即当数据发生变化的时候， 视图也就发生变化， 当视图发生变化的时候，数据也会跟着同步变化。这也算是Vue.js的精髓之处了。
+
+### 为什么要实现数据的双向绑定
+
+在Vue.js中，如果使用vuex， 实际上数据还是单向的， 之所以说是数据双向绑定，这是用的UI控件来说， 对于我们处理表单， Vue.js的双向数据绑定用起来就特别舒服了。即两者并不互斥，在全局性数据流使用单项，方便跟踪；局部性数据流使用双向，简单易操作。
+
+## 在表单中使用双向数据绑定
+
+你可以用v-model指令在表单、及元素上创建双向数据绑定。它会根据控件类型自动选取正确的方法来更新元素。尽管有些神奇， 但v-model本质上不过是语法糖。它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。
+
+注意：v-model会忽略所有表单元素的value、checked、selected特性的初始值而总是将Vue实例的数据作为数据来源。你应该通过JavaScript在组件的data选项中声明初始值!
+
+### v-model
+
+你可以用v-model指令在表单、及元素上创建双向数据绑定。它会根据控件类型自动选取正确的方法来更新元素。尽管有些神奇， 但v-model本质上不过是语法糖。它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。
+
+注意：v-model会忽略所有表单元素的`value`、`checked`、`selected`特性的初始值而总是将Vue实例的数据作为数据来源。你应该通过JavaScript在组件的data选项中声明初始值!
+
+```html
+<div id="app">
+    <p>{{message}}</p>
+    <input v-model="message"/>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data : {
+            message : "Helloword"
+        }
+    })
+</script>
+```
+
+## 什么是组件
+
+组件是可复用的`Vue`实例， 说白了就是一组可以重复使用的模板， 跟`JSTL`的自定义标签、`Thymeleal`的`th:fragment`等框架有着异曲同工之妙，通常一个应用会以一棵嵌套的组件树的形式来组织：
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20211219163040.png" alt="image-20211219163037939" style="zoom:80%;" />
+
+例如，你可能会有页头、侧边栏、内容区等组件，每个组件又包含了其它的像导航链接、博文之类的组件
+
+### **第一个Vue组件**
+
+注意：在实际开发中，我们并不会用以下方式开发组件，而是采用`vue-cli`创建，`vue`模板文件的方式开发，以下方法只是为了让大家理解什么是组件。
+  **使用`Vue.component()`方法注册组件，格式如下：**
+
+```html
+<div id="app">
+    <ol>
+        <!--
+            现在我们为每个 todo-item 提供 todo 对象
+            todo 对象是变量，即其内容可以是动态的。
+            我们也需要为每个组件提供一个“key”，稍后再
+            作详细解释。
+        -->
+        <dunkcode 
+        v-for="item in groceryList"
+        v-bind:todo="item"
+        v-bind:key="item.id">
+        </dunkcode> 
+    </ol>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script>
+    Vue.component('dunkcode', {
+        props: ['todo'],
+        template: '<li>{{todo.text}}</li>'
+    });
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            groceryList: [
+                { id: 0, text: '蔬菜' },
+                { id: 1, text: '奶酪' },
+                { id: 2, text: '随便其它什么人吃的东西' }
+            ]
+        }
+    })
+</script>
+```
+
+说明：
+
+- Vue.component()：注册组件
+- pan：自定义组件的名字
+- template：组件的模板
+
+### 使用props属性传递参数
+
+Prop 是你可以在组件上注册的一些自定义 attribute。当一个值传递给一个 prop attribute 的时候，它就变成了那个组件实例的一个 property。为了给博文组件传递一个标题，我们可以用一个 `props` 选项将其包含在该组件可接受的 prop 列表中
+
+### 单个根元素
+
+当构建一个 `<blog-post>` 组件时，你的模板最终会包含的东西远不止一个标题：
+
+```html
+<h3>{{ title }}</h3>
+```
+
+最最起码，你会包含这篇博文的正文：
+
+```html
+<h3>{{ title }}</h3>
+<div v-html="content"></div>
+```
+
+然而如果你在模板中尝试这样写，Vue 会显示一个错误，并解释道 **every component must have a single root element (每个组件必须只有一个根元素)**。你可以将模板的内容包裹在一个父元素内，来修复这个问题，例如：
+
+```html
+<div class="blog-post">
+  <h3>{{ title }}</h3>
+  <div v-html="content"></div>
+</div>
+```
+
+现在，不论何时为 `post` 对象添加一个新的 property，它都会自动地在 `<blog-post>` 内可用。
+
+### 监听子组件事件
+
+在我们开发 `<blog-post>` 组件时，它的一些功能可能要求我们和父级组件进行沟通。例如我们可能会引入一个辅助功能来放大博文的字号，同时让页面的其它部分保持默认的字号。
+
+在其父组件中，我们可以通过添加一个 `postFontSize` 数据 property 来支持这个功能：
+
+```html
+new Vue({
+    el: '#blog-post-demo',
+    data: {
+        posts: [
+            { id: 1, title: 'My journey with Vue' },
+            { id: 2, title: 'Blogging with Vue' },
+            { id: 3, title: 'Why Vue is so fun' }
+        ],
+        postFontSize: 1
+    }
+})
+```
+
+现在我们在每篇博文正文之前添加一个按钮来放大字号：
+
+```html
+<button>
+  Enlarge text
+</button>
+```
+
+当点击这个按钮时，我们需要告诉父级组件放大所有博文的文本。幸好 Vue 实例提供了一个自定义事件的系统来解决这个问题。父级组件可以像处理 native DOM 事件一样通过 `v-on` 监听子组件实例的任意事件：
+
+```html
+<blog-post
+  ...
+  v-on:enlarge-text="postFontSize += 0.1"
+></blog-post>
+```
+
+同时子组件可以通过调用内建的 [**`$emit`** 方法](https://cn.vuejs.org/v2/api/#vm-emit)并传入事件名称来触发一个事件：
+
+```html
+<button v-on:click="$emit('enlarge-text')">
+  Enlarge text
+</button>
+```
+
+#### 使用事件抛出一个值
+
+有的时候用一个事件来抛出一个特定的值是非常有用的。例如我们可能想让 `<blog-post>` 组件决定它的文本要放大多少。这时可以使用 `$emit` 的第二个参数来提供这个值：
+
+有的时候用一个事件来抛出一个特定的值是非常有用的。例如我们可能想让 `<blog-post>` 组件决定它的文本要放大多少。这时可以使用 `$emit` 的第二个参数来提供这个值：
+
+```html
+<button v-on:click="$emit('enlarge-text', 0.1)">
+  Enlarge text
+</button>
+```
+
+然后当在父级组件监听这个事件的时候，我们可以通过 `$event` 访问到被抛出的这个值：
+
+```html
+<blog-post
+  ...
+  v-on:enlarge-text="postFontSize += $event"
+></blog-post>
+```
+
+或者，如果这个事件处理函数是一个方法：
+
+```html
+<blog-post
+  ...
+  v-on:enlarge-text="onEnlargeText"
+></blog-post>
+```
+
+那么这个值将会作为第一个参数传入这个方法：
+
+```html
+methods: {
+  onEnlargeText: function (enlargeAmount) {
+    this.postFontSize += enlargeAmount
+  }
+}
+```
+
+#### 在组件上使用 v-model
+
+
+
+### 动态组件
+
+有的时候，在不同组件之间进行动态切换是非常有用的，比如在一个多标签的界面里：
+
+# [Axios](https://so.csdn.net/so/search?from=pc_blog_highlight&q=Axios)异步通信
+
+## 什么是Axios
+
+Axios是一个开源的可以用在浏览器端和Node JS的异步通信框架， 她的主要作用就是实现AJAX异步通信，其功能特点如下：
+
+- 从浏览器中创建XMLHttpRequests
+- 从node.js创建http请求
+- 支持Promise API[JS中链式编程]
+- 拦截请求和响应
+- 转换请求数据和响应数据
+- 取消请求
+- 自动转换JSON数据
+- 客户端支持防御XSRF(跨站请求伪造)
+
+GitHub：https://github.com/axios/axios
+  中文文档：http://www.axios-js.com/
+
+
+
+## 为什么要使用Axios
+
+由于Vue.js是一个视图层框架并且作者(尤雨溪) 严格准守SoC(关注度分离原则)所以Vue.js并不包含AJAX的通信功能， 为了解决通信问题， 作者单独开发了一个名为vue-resource的插件， 不过在进入2.0版本以后停止了对该插件的维护并推荐了Axios框架。少用jQuery， 因为它操作Dom太频繁!
+
+## 第一个Axios应用程序
+
+咱们开发的接口大部分都是采用JSON格式， 可以先在项目里模拟一段JSON数据， 数据内容如下：创建一个名为data.json的文件并填入上面的内容， 放在项目的根目录下
+
+## Vue的生命周期
+
+官方文档：https://cn.vuejs.org/v2/guide/instance.html#生命周期图示
+
+  Vue实例有一个完整的生命周期，也就是从开始创建初女台化数据、编译模板、挂载DOM、渲染一更新一渲染、卸载等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁的过程，就是生命周期。
+
+  在Vue的整个生命周期中，它提供了一系列的事件，可以让我们在事件触发时注册JS方法，可以让我们用自己注册的JS方法控制整个大局，在这些事件响应方法中的this直接指向的是Vue的实例。
+
+![img](https://gitee.com/zhang-songyao/blog-images/raw/master/20211223234223.png)
+
+```html
+<body>
+
+    <div id="app">
+        公司：<input type="text" name="" id=""  v-model="obj.company">
+    </div>
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script text="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                obj: "",
+            },
+            created() {
+                axios({
+                    method: "GET",
+                    url: "http://www.dunkcode.cn:8080/entry/1/searchById"
+                }).then(res => {
+                    this.obj = res.data;
+                    console.log(res);
+                })
+            },
+        })
+
+    </script>
+</body>
+```
+
+# 计算属性、内容分发、自定义事件
+
+## 什么是计算属性
+
+计算属性的重点突出在`属性`两个字上(属性是名词)，首先它是个`属性`其次这个属性有`计算`的能力(计算是动词)，这里的`计算`就是个函数：简单点说，它就是一个能够将计算结果缓存起来的属性(将行为转化成了静态的属性)，仅此而已；可以想象为缓存!、
+
+- 函数`currentTime()`的值每一次调用都会改变
+- 计算属性`currentTime1`的值，只有再次执行增删改时才会改变
+
+```html
+<body>
+    <div id="app">
+        currentTime:{{currentTime()}}<br>
+        currentTime:{{currentTime1}}
+    </div>
+
+
+    <script src="../js/vue.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello Vue"
+            },
+            methods: {
+                currentTime: function() {
+                    return Date.now(); // 返回一个时间戳
+                }
+            },
+            computed: { // methods和computed的方法名不能重复，否则只会执行methods的方法
+                currentTime1: function() {
+                    this.message;
+                    return Date.now();
+                }
+            }
+        });
+    </script>
+</body>
+```
+
+**结论：**
+
+我们可以将同一函数定义为一个方法而不是一个计算属性。两种方式的最终结果确实是完全相同的。然而，不同的是**计算属性是基于它们的响应式依赖进行缓存的**。只在相关响应式依赖发生改变时它们才会重新求值。这就意味着只要 `message` 还没有发生改变，多次访问 `currentTime1` 计算属性会立即返回之前的计算结果，而不必再次执行函数
+
+## 内容分发
+
+在Vue.js中我们使用<slot>元素作为承载分发内容的出口，作者称其为插槽，可以应用在组合组件的场景中；
+
+测试
+比如准备制作一个待办事项组件(todo) ， 该组件由待办标题(todo-title) 和待办内容(todo-items)组成，但这三个组件又是相互独立的，该如何操作呢?
+
+```html
+<body>
+    <div id="app">
+        <todo>
+            <todo-title slot="todo-title" :title="title"></todo-title>
+            <todo-items slot="todo-items" v-bind:item="item" v-for="item in items"></todo-items>
+        </todo>
+    </div>
+
+
+    <script src="../js/vue.min.js"></script>
+    <script>
+        Vue.component('todo', {
+            template: `<div>
+                            <slot name="todo-title"></slot>
+                            <ul>
+                                <slot name="todo-items"></slot>
+                            </ul>
+                        </div>`
+        })
+        Vue.component('todo-title', {
+            props: ['title'],
+            template: `<div>{{title}}</div>`
+        })
+        Vue.component('todo-items', {
+            props: ['item'],
+            template: `<li>{{item}}</li>`
+        })
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                title: "课程",
+                items: ['Java', 'Vue', 'Golang', 'MySQL'],
+            }
+        });
+    </script>
+</body>
+```
+
+## 自定义事件
+
+通以上代码不难发现，数据项在Vue的实例中， 但删除操作要在组件中完成， 那么组件如何才能删除Vue实例中的数据呢?此时就涉及到参数传递与事件分发了， Vue为我们提供了自定义事件的功能很好的帮助我们解决了这个问题； 使用this.$emit(‘自定义事件名’， 参数) ， 操作过程如下：
+
+```html
+<body>
+    <div id="app">
+        <todo>
+            <todo-title slot="todo-title" :title="title"></todo-title>
+            <todo-items slot="todo-items" v-for="(item, index) in items" v-bind:item="item" v-bind:index="index"  v-on:remove="removeItem(index)"></todo-items>
+        </todo>
+    </div>
+
+
+    <script src="../js/vue.min.js"></script>
+    <script>
+        Vue.component('todo', {
+            template: `<div>
+                            <slot name="todo-title"></slot>
+                            <ul>
+                                <slot name="todo-items"></slot>
+                            </ul>
+                        </div>`
+        })
+        Vue.component('todo-title', {
+            props: ['title'],
+            template: `<div>{{title}}</div>`
+        })
+        Vue.component('todo-items', {
+            props: ['item', 'index'],
+            template: `<li>{{index}}--->{{item}}
+                <button @click="remove_method">删除</button>
+                </li>`,
+            methods: {
+                remove_method:function(index) {
+                    // 自定义事件分发
+                    this.$emit('remove', index);
+                }
+            },
+        })
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                title: "课程",
+                items: ['Java', 'Vue', 'Golang', 'MySQL'],
+            },
+            methods: {
+                removeItem: function(index) {
+                    this.items.splice(index, 1);
+                }
+            }
+        });
+    </script>
+</body>
+```
+
+
+
+
+
+<img src="https://gitee.com/zhang-songyao/blog-images/raw/master/20211226202658.png" alt="在这里插入图片描述" style="zoom:80%;" />
+
+# Vue入门小结
+
+核心：数据驱动，组件化
+
+优点：借鉴了AngularJS的模块化开发和React的虚拟Dom，虚拟Dom就是把Demo操作放到内存中执行；
+
+常用的属性：
+
+- v-if
+- v-else-if
+- v-else
+- v-for
+- v-on绑定事件，简写@
+- v-model数据双向绑定
+- v-bind给组件绑定参数，简写：
+
+组件化：
+
+- 组合组件slot插槽
+- 组件内部绑定事件需要使用到this.$emit("事件名",参数);
+- 计算属性的特色，缓存计算数据
+
+遵循SoC关注度分离原则，Vue是纯粹的视图框架，并不包含，比如Ajax之类的通信功能，为了解决通信问题，我们需要使用Axios框架做异步通信；
+
+## 说明
+
+Vue的开发都是要基于NodeJS，实际开发采用Vue-cli脚手架开发，vue-router路由，vuex做状态管理；Vue UI，界面我们一般使用ElementUI（饿了么出品），或者ICE（阿里巴巴出品）来快速搭建前端项目~~
+
+官网：
+
+- https://element.eleme.cn/#/zh-CN
+- https://ice.work/
+  
+
+# 第一个vue-cli项目
+
+## 什么是vue-cli
+
+vue-cli官方提供的一个脚手架，用于快速生成一个vue的项目模板；
+  预先定义好的目录结构及基础代码，就好比咱们在创建Maven项目时可以选择创建一个骨架项目，这个估计项目就是脚手架，我们的开发更加的快速；
+
+项目的功能
+
+- 统一的目录结构
+- 本地调试
+- 热部署
+- 单元测试
+- 集成打包上线
+
+## 需要的环境
+
+- Node.js：http://nodejs.cn/download/
+  安装就是无脑的下一步就好，安装在自己的环境目录下
+- Git：https://git-scm.com/doenloads
+  镜像：https://npm.taobao.org/mirrors/git-for-windows/
+
+**安装vue-cli**
+
+```bash
+cnpm instal1 vue-cli-g
+#测试是否安装成功#查看可以基于哪些模板创建vue应用程序，通常我们选择webpack
+vue list
+```
+
+## 第一个vue-cli应用程序
+
+```bash
+# 创建vue项目
+vue create vue_name
+# 安装vue-router
+npm install vue-router --save
+# 安装element-ui
+npm i elememt-ui -S
+# 安装axios
+npm i axios --save
+# 运行项目
+npm run serve
+```
+
+Npm命令解释：
+
+- npm install moduleName：安装模块到项目目录下
+- npm install -g moduleName：-g的意思是将模块安装到全局，具体安装到磁盘哪个位置要看npm config prefix的位置
+- npm install -save moduleName：–save的意思是将模块安装到项目目录下， 并在package文件的dependencies节点写入依赖，-S为该命令的缩写
+- `npm install -save-dev moduleName`:–save-dev的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖，-D为该命令的缩写
+
+
+
+# webpack使用
+
+## 什么是Webpack
+
+本质上， webpack是一个现代JavaScript应用程序的静态模块打包器(module bundler) 。当webpack处理应用程序时， 它会递归地构建一个依赖关系图(dependency graph) ， 其中包含应用程序需要的每个模块， 然后将所有这些模块打包成一个或多个bundle.
+
+Webpack是当下最热门的前端资源模块化管理和打包工具， 它可以将许多松散耦合的模块按照依赖和规则打包成符合生产环境部署的前端资源。还可以将按需加载的模块进行代码分离，等到实际需要时再异步加载。通过loader转换， 任何形式的资源都可以当做模块， 比如Commons JS、AMD、ES 6、CSS、JSON、Coffee Script、LESS等；
+
+伴随着移动互联网的大潮， 当今越来越多的网站已经从网页模式进化到了WebApp模式。它们运行在现代浏览器里， 使用HTML 5、CSS 3、ES 6等新的技术来开发丰富的功能， 网页已经不仅仅是完成浏览器的基本需求； WebApp通常是一个SPA(单页面应用) ， 每一个视图通过异步的方式加载，这导致页面初始化和使用过程中会加载越来越多的JS代码，这给前端的开发流程和资源组织带来了巨大挑战。
+
+前端开发和其他开发工作的主要区别，首先是前端基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器的，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。
+
+## 模块化的演进
+
+### Script标签
+
+```html
+<script src = "module1.js"></script>
+<script src = "module2.js"></script>
+<script src = "module3.js"></script>
+```
+
+这是最原始的JavaScript文件加载方式，如果把每一个文件看做是一个模块，那么他们的接口通常是暴露在全局作用域下，也就是定义在window对象中，不同模块的调用都是一个作用域。
+  这种原始的加载方式暴露了一些显而易见的弊端：
+
+- 全局作用域下容易造成变量冲突
+- 文件只能按照<script>的书写顺序进行加载
+- 开发人员必须主观解决模块和代码库的依赖关系
+- 在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪
+
+### **CommonsJS**
+
+服务器端的NodeJS遵循CommonsJS规范，该规范核心思想是允许模块通过require方法来同步加载所需依赖的其它模块，然后通过exports或module.exports来导出需要暴露的接口。
+
+```bash
+require("module");
+require("../module.js");
+export.doStuff = function(){};
+module.exports = someValue;
+1234
+```
+
+优点：
+
+- 服务器端模块便于重用
+- NPM中已经有超过45万个可以使用的模块包
+- 简单易用
+
+缺点：
+
+- 同步的模块加载方式不适合在浏览器环境中，同步意味着阻塞加载，浏览器资源是异步加载的
+- 不能非阻塞的并行加载多个模块
+
+实现：
+
+- 服务端的NodeJS
+- •Browserify，浏览器端的CommonsJS实现，可以使用NPM的模块，但是编译打包后的文件体积较大
+- modules-webmake，类似Browserify，但不如Browserify灵活
+- wreq，Browserify的前身
+
+### **CMD**
+
+Commons Module Definition规范和AMD很相似，尽保持简单，并与CommonsJS和NodeJS的Modules规范保持了很大的兼容性
+
+```bash
+define(function(require,exports,module){
+	var $=require("jquery");
+	var Spinning = require("./spinning");
+	exports.doSomething = ...;
+	module.exports=...;
+});
+```
+
+**优点：**
+
+- 依赖就近，延迟执行
+- 可以很容易在NodeJS中运行缺点
+- 依赖SPM打包，模块的加载逻辑偏重
+
+**实现**
+
+- Sea.js
+- coolie
+
+### ES6模块
+
+EcmaScript 6标准增加了JavaScript语言层面的模块体系定义。ES 6模块的设计思想， 是尽量静态化， 使编译时就能确定模块的依赖关系， 以及输入和输出的变量。Commons JS和AMD模块，都只能在运行时确定这些东西。
+
+```javascript
+import "jquery"
+export function doStuff(){}
+module "localModule"{}
+```
+
+**优点**
+
+- 容易进行静态分析
+- 面向未来的Ecma Script标准
+
+**缺点**
+
+- 原生浏览器端还没有实现该标准
+- 全新的命令，新版的Node JS才支持
+
+**实现**
+
+- Babel
+
+## 安装Webpack
+
+WebPack是一款模块加载器兼打包工具， 它能把各种资源， 如JS、JSX、ES 6、SASS、LESS、图片等都作为模块来处理和使用。
+
+### 安装
+
+```bash
+npm install webpack -g
+npm install webpack-cli -g
+```
+
+测试安装成功
+
+- webpack -v
+- webpack-cli - v
+
+### 配置
+
+创建`webpack.config.js`配置文件
+
+- entry：入口文件， 指定Web Pack用哪个文件作为项目的入口
+- output：输出， 指定WebPack把处理完成的文件放置到指定路径
+- module：模块， 用于处理各种类型的文件
+- plugins：插件， 如：热更新、代码重用等
+- resolve：设置路径指向
+- watch：监听， 用于设置文件改动后直接打包
+
+```json
+module.exports = {
+	entry:"",
+	output:{
+		path:"",
+		filename:""
+	},
+	module:{
+		loaders:[
+			{test:/\.js$/,;\loade:""}
+		]
+	},
+	plugins:{},
+	resolve:{},
+	watch:true
+}
+```
+
+### 打包
+
+```bash
+webpack
+```
+
+# vue-router路由
+
+## 说明
+
+Vue Router是Vue.js官方的路由管理器。它和Vue.js的核心深度集成， 让构建单页面应用变得易如反掌。包含的功能有：
+
+- 嵌套的路由/视图表
+- 模块化的、基于组件的路由配置
+- 路由参数、查询、通配符
+- 基于Vue js过渡系统的视图过渡效果
+- 细粒度的导航控制
+- 带有自动激活的CSS class的链接
+- HTML5 历史模式或hash模式， 在IE 9中自动降级
+- 自定义的滚动行为
+
+## 安装
+
+> 在当前项目路径下执行
+
+```bash
+npm install vue-router
+```
+
+安装好后，在src下创建router/index.js用于配置vue-router
+
+```javascript
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+import Form from '../components/Form'
+import Main from '../components/Main'
+
+// 显示声明使用vue-router
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    routes: [
+        {
+            path: "/form",
+            name: "form",
+            component: Form
+        },
+        {
+            path: "/main",
+            name: "main",
+            component: Main
+        }
+    ]
+})
+```
+
+在main.js下配置路由
+
+```javascript
+import Vue from 'vue'
+import App from './App.vue'
+import axios from 'axios'
+import router from './router'
+
+Vue.config.productionTip = false
+//Vue.use(axios);
+Vue.prototype.axios = axios;
+
+new Vue({
+  render: h => h(App),
+  router,
+}).$mount('#app')
+```
+
+在App.vue中使用路由
+
+```vue
+<template>
+  <div id="app">
+    <router-link to="/main">首页</router-link>
+    <br>
+    <router-link to="/form">表单</router-link> <br>
+    <router-view></router-view>
+    <router-link to="/main">首页</router-link>
+    <br>
+    <router-link to="/form">表单</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+import Form from './components/Form'
+
+export default {
+  name: 'App',
+  components: {
+    Form
+  }
+}
+</script>
+
+<style lang="less">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
+
+# 实战快速上手
+
+## 创建项目
+
+```bash
+vue create vue-learn3
+
+npm i vue-router -S
+
+npm i element-ui -S
+
+npm i axios -S
+
+npm run serve
+```
+
+Npm命令解释：
+
+- npm install moduleName：安装模块到项目目录下
+- npm install -g moduleName：-g的意思是将模块安装到全局，具体安装到磁盘哪个位置要看npm config prefix的位置
+- npm install -save moduleName：–save的意思是将模块安装到项目目录下， 并在package文件的dependencies节点写入依赖，-S为该命令的缩写
+- `npm install -save-dev moduleName`:–save-dev的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖，-D为该命令的缩写
+
+## 路由配置
+
+在src路径下创建/router/index.js文件配置路由
+
+```javascript
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+import Main from '../views/Main';
+import Login from '../views/Login';
+
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    routes: [
+        {
+            path: "/main",
+            name: "main",
+            component: Main
+        },
+        {
+            path: "/login",
+            name: " login",
+            component: Login
+        }
+    ]
+})
+```
+
+## 页面创建
+
+### 主页
+
+```vue
+<template>
+  <h1>首页</h1>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>
+```
+
+### 登录页
+
+引入element-ui
+
+```vue
+<template>
+  <div>
+    <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+      <h3 class="login-title">欢迎登录</h3>
+      <span v-model="reason" style="color=red">{{reason}}</span>
+      <el-form-item label="账号" prop="username">
+        <el-input type="text" placeholder="请输入账号" v-model="form.username"/>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" placeholder="请输入密码" v-model="form.password"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit('loginForm')">登录</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-dialog title="温馨提示" :visible.sync="dialogVisible" width="30%">
+      <span>请输入账号和密码</span>
+      <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+        </span>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+    export default {
+        name: "Login",
+      data(){
+          return{
+            form:{
+              username:'',
+              password:''
+            },
+            reason: "",
+            //表单验证，需要在 el-form-item 元素中增加prop属性
+            rules:{
+              username:[
+                {required:true,message:"账号不可为空",trigger:"blur"}
+              ],
+              password:[
+                {required:true,message:"密码不可为空",tigger:"blur"}
+              ]
+            },
+
+            //对话框显示和隐藏
+            dialogVisible:false
+          }
+      },
+      methods:{
+          onSubmit(formName){
+            //为表单绑定验证功能
+            this.$refs[formName].validate((valid)=>{
+              if(valid){
+                  this.axios({
+                      method: "POST",
+                      url: "http://www.dunkcode.cn:8080/user/login",
+                      data: {
+                          "username": this.form.username,
+                          "password": this.form.password
+                      }
+                  }).then(res=>{
+                      console.log(res);
+                      if(res.data.success) {
+                          this.$router.push('/main');
+                      } else{
+                          this.reason = res.data.reason;
+                          alert(this.reason);
+                      }
+                  })
+                //使用vue-router路由到指定界面，该方式称为编程式导航
+                
+              }else{
+                this.dialogVisible=true;
+                return false;
+              }
+            });
+          }
+      }
+    }
+</script>
+
+<style lang="less" scoped>
+  .login-box{
+    border:1px solid #DCDFE6;
+    width: 350px;
+    margin:180px auto;
+    padding: 35px 35px 15px 35px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: 0 0 25px #909399;
+  }
+  .login-title{
+    text-align:center;
+    margin: 0 auto 40px auto;
+    color: #303133;
+  }
+</style>
+```
+
+## 配置main.js
+
+```javascript
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
+import axios from 'axios'
+
+Vue.config.productionTip = false
+Vue.use(ElementUI);
+Vue.use(router);
+Vue.prototype.axios = axios;
+
+new Vue({
+  render: h => h(App),
+  router
+}).$mount('#app')
+```
+
+> App.vue
+
+```vue
+<template>
+  <div id="app">
+    <router-link to="/main">Main</router-link>
+    <br>
+    <router-link to="/login">Login</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'App',
+  components: {
+  }
+}
+</script>
+
+<style lang="less">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+```
+
+## 路由嵌套
+
+嵌套路由又称子路由，在实际应用中，通常由多层嵌套的组件组合而成。
+
+```javascript
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+import Main from '../views/Main';
+import Login from '../views/Login';
+import UserProfile from '../views/user/Profile'
+import UserList from '../views/user/List'
+
+Vue.use(VueRouter);
+
+export default new VueRouter({
+    routes: [
+        {
+            path: "/main",
+            name: "main",
+            component: Main, // 路由嵌套
+            children: [
+                {path: "/user/profile", component: UserProfile},
+                {path: "/user/list", component: UserList}
+            ]
+        },
+        {
+            path: "/login",
+            name: " login",
+            component: Login
+        }
+    ]
+})
+```
+
+## 参数传递
+
+在/router/index.js中配置
+
+```javascript
+path: "/main/:message",
+name: "Main",
+component: Main,
+props: true,
+```
+
+在router-link中使用（两种方式）
+
+- `<router-link :to="{name:'UserProfile',params:{id:1}}">个人信息</router-link>`
+- `this.$router.push({name: 'Main', params: {message: res.data.message}});`
+
+## 组件重定向
+
+```javascript
+{
+    path: "/goHome",
+    redirect: "/login"
+},
+```
+
+# 路由模式与404
+
+## 路由模式有两种
+
+- hash：路径带 # 符号，如 http://localhost/#/login
+- history：路径不带 # 符号，如 http://localhost/login
+
+## 404demo
+
+创建404模块
+
+```vue
+<template>
+  <div>
+      <h1>404,页面不存在</h1>
+  </div>
+</template>
+
+<script>
+export default {
+    name: "NotFound",
+};
+</script>
+
+<style>
+</style>
+```
+
+修改路由配置
+
+```javascript
+{
+    path: "*",
+    name: "NotFound",
+    component: NotFound
+}
+```
+
+## 路由钩子与异步请求
+
+- beforeRouteEnter：在进入路由前执行
+- beforeRouteLeave：在离开路由前执行
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
